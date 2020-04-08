@@ -1,10 +1,11 @@
 const User = require("../models/user");
+const Order = require("../models/order");
 
-exports.getUserById = (req,res,next,id)=>{
-    User.findById(id).exec((err, user)=>{
-        if(err || !user){
+exports.getUserById = (req, res, next, id) => {
+    User.findById(id).exec((err, user) => {
+        if (err || !user) {
             return res.status(400).json({
-                error:"User not found in DB"
+                error: "User not found in DB"
             });
         }
         req.profile = user
@@ -12,7 +13,67 @@ exports.getUserById = (req,res,next,id)=>{
     })
 };
 
-exports.gerUser = (req,res)=>{
+exports.getUser = (req, res) => {
     // TODO: get back here for password
+    // removing login credential
+    req.profile.salt = undefined;
+    req.profile.encrypt_password = undefined;
+    req.profile.createdAt = undefined;
+    req.profile.updatedAt = undefined;
+
     return res.json(req.profile)
+}
+
+
+exports.getAllUsers = (req, res) => {
+
+    User.find().exec((err, users) => {
+        if (err || !users) {
+            return res.status(400).json({
+                error: "Error DB, No user"
+            });
+        }
+        return res.json(users);
+
+    });
+}
+
+exports.updateUser = (req, res) => {
+    User.findByIdAndUpdate({
+            _id: req.profile._id
+        }, {
+            $set: req.body
+        }, {
+            new: true,
+            useFindAndModify: false
+        },
+        (err, user) => {
+            // err is received when _id not found so only err check is also enough
+            if (err || !user) {
+                return res.status(400).json({
+                    error: "You dont have Authority to UPDATE"
+                });
+            }
+            user.salt = undefined;
+            user.encrypt_password = undefined;
+            user.createdAt = undefined;
+            user.updatedAt = undefined;
+            res.json(user)
+        }
+    )
+}
+exports.userPurchaseList = (req, res) => {
+    Order.find({
+            user: req.profile._id
+        })
+        .populate("user", "_id name")
+        .exec((err, order) => {
+            if (err) {
+                return res.status(400).json({
+                    error: "NO ORDER in this account"
+                });
+            }
+            return res.json(order);
+        })
+
 }
