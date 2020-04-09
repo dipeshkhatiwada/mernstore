@@ -5,12 +5,12 @@ exports.getUserById = (req, res, next, id) => {
     User.findById(id).exec((err, user) => {
         if (err || !user) {
             return res.status(400).json({
-                error: "User not found in DB"
+                error: "User not found in DB",
             });
         }
-        req.profile = user
+        req.profile = user;
         next();
-    })
+    });
 };
 
 exports.getUser = (req, res) => {
@@ -21,59 +21,90 @@ exports.getUser = (req, res) => {
     req.profile.createdAt = undefined;
     req.profile.updatedAt = undefined;
 
-    return res.json(req.profile)
-}
-
+    return res.json(req.profile);
+};
 
 exports.getAllUsers = (req, res) => {
-
     User.find().exec((err, users) => {
         if (err || !users) {
             return res.status(400).json({
-                error: "Error DB, No user"
+                error: "Error DB, No user",
             });
         }
         return res.json(users);
-
     });
-}
+};
 
 exports.updateUser = (req, res) => {
     User.findByIdAndUpdate({
-            _id: req.profile._id
+            _id: req.profile._id,
         }, {
-            $set: req.body
+            $set: req.body,
         }, {
             new: true,
-            useFindAndModify: false
+            useFindAndModify: false,
         },
         (err, user) => {
             // err is received when _id not found so only err check is also enough
             if (err || !user) {
                 return res.status(400).json({
-                    error: "You dont have Authority to UPDATE"
+                    error: "You dont have Authority to UPDATE",
                 });
             }
             user.salt = undefined;
             user.encrypt_password = undefined;
             user.createdAt = undefined;
             user.updatedAt = undefined;
-            res.json(user)
+            res.json(user);
         }
-    )
-}
+    );
+};
 exports.userPurchaseList = (req, res) => {
     Order.find({
-            user: req.profile._id
+            user: req.profile._id,
         })
         .populate("user", "_id name")
         .exec((err, order) => {
             if (err) {
                 return res.status(400).json({
-                    error: "NO ORDER in this account"
+                    error: "NO ORDER in this account",
                 });
             }
             return res.json(order);
-        })
+        });
+};
 
-}
+exports.pushOrderInPurchaseList = (req, res, next) => {
+    let purchases = [];
+    req.body.order.products.forEach(product => {
+        purchases.push({
+            _id: products._id,
+            name: product.name,
+            description: product.description,
+            category: product.category,
+            quantity: product.quantity,
+            amount: req.body.order.amount,
+            transaction_id: req.body.order.transaction_id,
+        });
+    });
+    // storing purchases in DB
+    User.findOneAndUpdate({
+            _id: req.profile._id
+        }, {
+            $push: {
+                purchases: purchases
+            }
+        }, {
+            new: true
+        },
+        (err, purchase) => {
+            if (err) {
+                return res.status(400).json({
+                    error: "Unable to save PURCHASE LIST"
+                })
+            }
+            // success msg here!!
+            next();
+        }
+    )
+};
