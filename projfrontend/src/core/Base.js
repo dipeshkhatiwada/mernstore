@@ -1,9 +1,9 @@
-import React, { Children } from 'react';
+import React from 'react';
 import Menu from "./Menu"
 const Base=({
     title = "My Title",
     description = "My description",
-    className="bg-dark text-white p-4",
+    className="bg-dark text-white p-2",
     children
 })=>  (
     <div>
@@ -15,7 +15,7 @@ const Base=({
             </div>
             <div className={className}>{children}</div>
         </div>
-        <footer className="footer bg-dark mt-auto py-3">
+        <footer className="footer bg-dark mt-auto py-5">
             <div className="container-fluid bg-success text-white text-center py-3">
                 <h4>If you got any question feel free to contact</h4>
                 <button className="btn btn-warning btn-lg">contact us</button>

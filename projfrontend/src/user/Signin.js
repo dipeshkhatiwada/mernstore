@@ -1,25 +1,21 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Base from "../core/Base";
-import {Link} from "react-router-dom";
+// import {Link} from "react-router-dom";
 const Signin = () => {
-  const signUpForm = ()=>{
+  const signInForm = ()=>{
     return(
       <div className="row">
         <div className="col-md-6 offset-sm-3 text-left">
           <form>
             <div className="form-group">
-              <label className="text-light">Name</label>
-              <input type="text"/>
-            </div>
-            <div className="form-group">
               <label className="text-light">Email</label>
-              <input type="email"/>
+              <input className="form-control" type="email"/>
             </div>
             <div className="form-group">
               <label className="text-light">Password</label>
-              <input type="password"/>
+              <input className="form-control" type="password"/>
             </div>
-            <button className="btn btn-success btn-block">Submit!</button>
+            <button className="btn btn-success btn-block">Sign In!</button>
           </form>
         </div>
       </div>
@@ -27,7 +23,8 @@ const Signin = () => {
   }
   return (
     <Base title="Signin PAge" description="A page for signin">
-        <h2>this is signin page</h2>
+        {/* <h2>this is signin page</h2> */}
+        {signInForm()}
     </Base>
   );
 }
