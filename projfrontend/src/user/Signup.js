@@ -14,14 +14,14 @@ const Signup = () => {
 
   const handleChange = name => event =>{
     setValues({...values,error:false, [name]:event.target.value});
-  }
+  };
   const onSubmit = event=>{
     event.preventDefault();
     setValues({...values,error:false});
     signup({name, email, password})
     .then(data=>{
       if(data.error){
-        setValues({...values, error: data.error, success:false});
+        setValues({...values, error: data.error.title, success:false});
       }else{
         setValues({
           ...values,
@@ -34,7 +34,7 @@ const Signup = () => {
       }
     })
     .catch(console.log("Signup failed"))
-  }
+  };
   const signUpForm = ()=>{
     return(
       <div className="row">
@@ -57,18 +57,26 @@ const Signup = () => {
         </div>
       </div>
     )
-  }
+  };
 
   const successMessage = ()=>(
-    <div className="alert alert-sucess" style={{display:success ? "": "none"}}>
-      New Account has been created<Link to="signin">Login here</Link>
+    <div className="row">
+      <div className="col-md-6 offset-sm-3 text-left">
+        <div className="alert alert-success" style={{display:success ? "": "none"}}>
+          New Account has been created<Link to="signin">Login here</Link>
+        </div>
+      </div>
     </div>
-  )
+  );
   const errorMessage = ()=>(
-    <div className="alert alert-danger" style={{display:error ? "": "none"}}>
-      {error}
+    <div className="row">
+      <div className="col-md-6 offset-sm-3 text-left">
+        <div className="alert alert-danger" style={{display:error ? "": "none"}}>
+          {error}
+        </div>
+      </div>
     </div>
-  )
+  );
   return (
     <Base title="Signup PAge" description="A page for signup">
       {successMessage()}
