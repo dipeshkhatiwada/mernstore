@@ -21,6 +21,8 @@ const {
 // PARAMS
 router.param("userId", getUserById);
 router.param("categoryId", getCategorybyId);
+
+
 // ACTUAL ROUTES are here!!
 
 router.post(
@@ -29,8 +31,8 @@ router.post(
     createCategory
 );
 
-router.get("category/:categoryId", getCategory)
-router.get("categories", getAllCategory)
+router.get("/category/:categoryId", getCategory)
+router.get("/categories", getAllCategory)
 
 router.put(
     "/category/:categoryId/:userId",

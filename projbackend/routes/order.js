@@ -37,12 +37,12 @@ router.get("/order/all/:userId", isSignedIn, isAuthenticated, isAdmin, getAllOrd
 
 // STATUS ROUTE
 router.get(
-    "order/status/:userId",
+    "/order/status/:userId",
     isSignedIn, isAuthenticated, isAdmin,
     getOrderStatus
 );
 router.put(
-    "order/:orderId/status/:userId",
+    "/order/:orderId/status/:userId",
     isSignedIn, isAuthenticated, isAdmin,
     updateStatus
 );

@@ -19,12 +19,16 @@ const activeTab = (history, path)=>{
         <li className="nav-item">
             <Link style={activeTab(history,"/cart")} className="nav-link" to="/cart">Cart</Link>
         </li>
-        <li className="nav-item">
-            <Link style={activeTab(history,"/user/dashboard")} className="nav-link" to="/user/dashboard">U. Dashboard</Link>
-        </li>
-        <li className="nav-item">
-            <Link style={activeTab(history,"/admin/dashboard")} className="nav-link" to="/admin/dashboard">Admin Dashboard</Link>
-        </li>
+        {isAuthenticated() && isAuthenticated().user.role ===0 && (
+            <li className="nav-item">
+                <Link style={activeTab(history,"/user/dashboard")} className="nav-link" to="/user/dashboard">u Dashboard</Link>
+            </li>
+        )}
+        {isAuthenticated() && isAuthenticated().user.role === 1 && (
+            <li className="nav-item">
+                <Link style={activeTab(history,"/admin/dashboard")} className="nav-link" to="/admin/dashboard">a Dashboard</Link>
+            </li>
+        )}
         {!isAuthenticated() && (
             <Fragment>
                 <li className="nav-item">
@@ -45,9 +49,6 @@ const activeTab = (history, path)=>{
                 {/* <Link style={activeTab(history,"/signout")} className="nav-link" to="/signout">Sign out</Link> */}
             </li>
         )}
-        <li className="nav-item">
-            <Link style={activeTab(history,"/cart")} className="nav-link" to="/cart">Admin Dashboard</Link>
-        </li>
     </ul>
 </div>
  )
