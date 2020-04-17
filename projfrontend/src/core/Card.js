@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import Imagehelper from './helper/Imagehelper';
 import { Redirect } from 'react-router-dom';
-import { addItemToCart, removeCart } from './helper/cardhelper';
+import { addItemToCart, removeCart } from './helper/carthelper';
 
 const Card = ({
     product,

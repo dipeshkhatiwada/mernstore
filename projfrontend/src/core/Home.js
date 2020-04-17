@@ -23,7 +23,6 @@ const Home = () => {
     loadAllProducts()
   }, [])
 
-  console.log("API IS",API);
   return (
     <Base title="Home Page" description="Welcome to our T-shirt store">
           {/* <h1 className="text-white"> ALl Tshorts</h1> */}

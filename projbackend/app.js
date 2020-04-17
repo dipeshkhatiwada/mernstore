@@ -5,12 +5,16 @@ const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+
 // requiring  for route
-const authRoutes = require("./routes/auth")
-const userRoutes = require("./routes/user")
-const categoryRoutes = require("./routes/category")
-const productRoutes = require("./routes/product")
-const orderRoutes = require("./routes/order")
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
+const categoryRoutes = require("./routes/category");
+const productRoutes = require("./routes/product");
+const orderRoutes = require("./routes/order");
+const stripeRoutes = require("./routes/stripepayment");
+const braintreeRoutes = require("./routes/braintreepayment");
+
 // connetion
 mongoose.connect(process.env.DATABASE, {
         useNewUrlParser: true,
@@ -30,6 +34,8 @@ app.use("/api", userRoutes)
 app.use("/api", categoryRoutes)
 app.use("/api", productRoutes)
 app.use("/api", orderRoutes)
+app.use("/api", stripeRoutes)
+app.use("/api", braintreeRoutes)
 
 // port
 const port = process.env.PORT || 8000;
