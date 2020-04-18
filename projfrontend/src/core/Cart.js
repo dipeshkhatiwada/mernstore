@@ -5,6 +5,7 @@ import Base from "./Base";
 import Card from "./Card";
 import { loadCart } from "./helper/carthelper";
 import StripePayment from "./StripePayment";
+import BraintreePayment from "./BraintreePayment";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -51,7 +52,8 @@ const Cart = () => {
         </div>
         <div className="col-6">
           {products.length > 0 ? (
-            <StripePayment products={products} setReload={setReload} />
+            // <StripePayment products={products} setReload={setReload} />
+            <BraintreePayment products={products} setReload={setReload} />
           ):(
             <h3 className="bg bg-info">Please, Add to cart</h3>
           )}
